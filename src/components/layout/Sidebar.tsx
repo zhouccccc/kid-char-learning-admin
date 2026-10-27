@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, BarChart3, Crown, MessageSquare, Cloud, CloudOff, Sparkles } from 'lucide-react';
+import { BookOpen, BarChart3, Users, MessageSquare, Cloud, CloudOff, Sparkles } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 import { PageKey } from '../../types';
 
@@ -17,21 +17,19 @@ const MENU_ITEMS: MenuItem[] = [
     icon: <BookOpen className="w-4 h-4" />
   },
   {
-    key: 'analytics',
-    label: '学情数据看板',
-    icon: <BarChart3 className="w-4 h-4" />,
-    badge: '规划中'
-  },
-  {
     key: 'memberships',
-    label: '会员商业化管理',
-    icon: <Crown className="w-4 h-4" />,
-    badge: '规划中'
+    label: '会员数据看板',
+    icon: <Users className="w-4 h-4" />
   },
   {
     key: 'feedback',
     label: '用户工单与客服',
-    icon: <MessageSquare className="w-4 h-4" />,
+    icon: <MessageSquare className="w-4 h-4" />
+  },
+  {
+    key: 'analytics',
+    label: '学情数据看板',
+    icon: <BarChart3 className="w-4 h-4" />,
     badge: '规划中'
   }
 ];

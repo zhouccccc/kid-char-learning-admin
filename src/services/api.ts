@@ -1,4 +1,16 @@
-import { AdminUser, AppConfig, CharLibItem, FeedbackItem, FeedbackStats, FeedbackStatus, StageLibrary } from '../types';
+import {
+  AdminUser,
+  AppConfig,
+  CharLibItem,
+  FeedbackItem,
+  FeedbackStats,
+  FeedbackStatus,
+  MemberDetail,
+  MemberFilterParams,
+  MemberItem,
+  MemberOverviewStats,
+  StageLibrary
+} from '../types';
 import { DEFAULT_STAGES_SEED } from './seedData';
 import { callAdminApi, ENV_ID } from './cloudbase';
 
@@ -210,5 +222,48 @@ export const api = {
   async changePassword(username: string, oldPassword: string, newPassword: string): Promise<boolean> {
     await callAdminApi('changePassword', { username, oldPassword, newPassword });
     return true;
+  },
+
+  // ---------------- 会员与学情成长数据看板 API ----------------
+  /**
+   * 获取会员与学情看板聚合统计大盘
+   */
+  async getMemberOverviewStats(): Promise<MemberOverviewStats> {
+    return callAdminApi<MemberOverviewStats>('getMemberOverviewStats');
+  },
+
+  /**
+   * 分页筛选查询会员/学员列表
+   */
+  async getMemberList(params: MemberFilterParams): Promise<{ list: MemberItem[]; total: number; page: number; pageSize: number }> {
+    return callAdminApi<{ list: MemberItem[]; total: number; page: number; pageSize: number }>('getMemberList', params);
+  },
+
+  /**
+   * 查询指定学员的完整学情画像与打卡记录
+   */
+  async getMemberDetail(openid: string): Promise<MemberDetail> {
+    return callAdminApi<MemberDetail>('getMemberDetail', { openid });
+  },
+
+  /**
+   * 后台调整/奖励/扣减学员爱心星币
+   */
+  async adjustMemberCoins(openid: string, amount: number, note?: string): Promise<{ openid: string; star_coins: number; delta: number }> {
+    return callAdminApi<{ openid: string; star_coins: number; delta: number }>('adjustMemberCoins', { openid, amount, note });
+  },
+
+  /**
+   * 后台解锁或调整学员阶梯学习阶段
+   */
+  async updateMemberStage(openid: string, stageId: number, unlockPrevious: boolean = true): Promise<{ openid: string; active_stage: number }> {
+    return callAdminApi<{ openid: string; active_stage: number }>('updateMemberStage', { openid, stageId, unlockPrevious });
+  },
+
+  /**
+   * 初始化/同步演示学员数据
+   */
+  async seedMockMemberData(): Promise<{ seeded_count: number }> {
+    return callAdminApi<{ seeded_count: number }>('seedMockMemberData');
   }
 };

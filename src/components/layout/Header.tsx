@@ -21,7 +21,7 @@ export const Header: React.FC = () => {
       case 'analytics':
         return { title: '学情数据看板', desc: '儿童学习进度、打卡留存与薄弱字统计大盘' };
       case 'memberships':
-        return { title: '会员商业化管理', desc: '全功能 VIP 与 5 项专项特权开通管理' };
+        return { title: '会员数据看板', desc: '全量学员成长档案、识字进阶梯队与打卡活跃大盘' };
       case 'feedback':
         return { title: '用户工单与客服', desc: '处理家长反馈、汉字纠错与客服沟通' };
     }
