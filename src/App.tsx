@@ -3,6 +3,7 @@ import { AdminLayout } from './components/layout/AdminLayout';
 import { CharManagementPage } from './pages/CharManagementPage';
 import { FeedbackManagementPage } from './pages/FeedbackManagementPage';
 import { MembershipDashboardPage } from './pages/MembershipDashboardPage';
+import { LearningAnalyticsPage } from './pages/LearningAnalyticsPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { LoginPage } from './pages/LoginPage';
 import { useAdmin } from './context/AdminContext';
@@ -51,6 +52,8 @@ export const App: React.FC = () => {
         <MembershipDashboardPage />
       ) : activePage === 'feedback' ? (
         <FeedbackManagementPage />
+      ) : activePage === 'analytics' ? (
+        <LearningAnalyticsPage />
       ) : (
         <PlaceholderPage pageKey={activePage} />
       )}

@@ -186,3 +186,130 @@ export interface MemberFilterParams {
   pageSize?: number;
 }
 
+// ---------------- 学情数据看板核心类型 ----------------
+export type AnalyticsTimeRange = 'today' | '7d' | '30d' | 'all';
+
+export interface AnalyticsFilterParams {
+  timeRange?: AnalyticsTimeRange;
+  stageId?: number | 'all';
+}
+
+export interface AnalyticsOverviewKPIs {
+  totalLearnedCount: number;         // 累计识字人次
+  totalLearnedGrowth: number;        // 环比增长百分比
+  avgCharsPerUser: number;          // 人均掌握汉字数
+  avgCharsGrowth: number;
+  todayNewChars: number;            // 今日新学字次
+  todayLearnersCount: number;       // 今日新学学员数
+  ebbinghausReviewRate: number;     // 艾宾浩斯复习遵循率 %
+  ebbinghausReviewRateDiff: number; // 相比上周期变化 %
+  quizAccuracyRate: number;         // 全网测验综合正确率 %
+  quizAccuracyDiff: number;
+  avgStudyDurationMin: number;      // 人均每日学习时长(分钟)
+  avgCharLearnSec: number;          // 单字平均学习耗时(秒)
+  handwriteFinishRate: number;      // 手写描红临摹完成率 %
+}
+
+export interface StageProgressionItem {
+  stage_id: number;
+  stage_name: string;
+  target_age: string;
+  theme_color: string;
+  total_chars: number;
+  active_learners: number;
+  completion_rate: number;          // 阶段完课率 %
+  median_days_to_complete: number;  // 完课中位数天数
+  level0_count: number;            // 未学字数
+  level1_count: number;            // 初识入门字数
+  level2_count: number;            // 基本熟悉字数
+  level3_count: number;            // 熟练掌握字数
+  bottleneck_alert?: string;       // 瓶颈提示
+}
+
+export interface EbbinghausTrendPoint {
+  date: string;                    // 'MM-DD'
+  dueCount: number;                // 应复习字数
+  reviewedCount: number;           // 实际复习字数
+  rate: number;                    // 达成率 %
+}
+
+export interface EbbinghausRetentionRound {
+  round: number;
+  label: string;                   // '第1轮 (5~30分钟)'
+  interval: string;                // '第1天'
+  retentionRate: number;           // 记忆留存率 %
+  sampleCount: number;             // 样本量
+  status: 'optimal' | 'normal' | 'attention';
+}
+
+export interface EbbinghausReviewStats {
+  trend30Days: EbbinghausTrendPoint[];
+  retentionMatrix: EbbinghausRetentionRound[];
+  avgRoundsToMaster: number;        // 晋升到 Level 3 平均复习轮次
+  avgDaysToMaster: number;          // 晋升到 Level 3 平均天数
+  pendingReviewCharsCount: number;  // 全网待复习汉字堆积
+  criticalAtRiskCharsCount: number; // 临界遗忘池汉字量 (>7天未复习)
+}
+
+export interface ToughCharItem {
+  id: number;
+  char_text: string;
+  pinyin: string;
+  pinyin_with_tone?: string;
+  stage_id: number;
+  stage_name: string;
+  strokes: number;
+  total_attempts: number;          // 累计测验答题人次
+  wrong_count: number;             // 做错人次
+  error_rate: number;              // 错误率 %
+  mistake_category: 'shape' | 'sound' | 'strokes' | 'meaning'; // 形近/音近/笔画/字义
+  mistake_category_label: string;
+  common_confusions: string[];     // 常见混淆干扰项
+  teaching_suggestion: string;     // 教研优化建议
+}
+
+export interface HourlyActivityPoint {
+  hour: number;                    // 0..23
+  hour_label: string;              // '19:00'
+  activity_count: number;
+  percent: number;
+  is_peak: boolean;
+}
+
+export interface LearningHabitStats {
+  hourlyDistribution: HourlyActivityPoint[];
+  peakPeriodLabel: string;         // '19:30 - 21:00 (晚间亲子黄金时段)'
+  planModeUsersPercent: number;    // 计划学习用户占比 %
+  freeModeUsersPercent: number;    // 随心学用户占比 %
+  planModeCompletionRate: number;  // 计划学习完课率 %
+  freeModeCompletionRate: number;  // 随心学完课率 %
+  responseSpeedBreakdown: {
+    quickPercent: number;          // 秒答 (<2s)
+    thinkingPercent: number;       // 思考作答 (2-6s)
+    hesitantPercent: number;       // 犹豫 (>6s)
+  };
+}
+
+export interface AnalyticsAlertItem {
+  id: string;
+  level: 'danger' | 'warning' | 'info';
+  title: string;
+  message: string;
+  affected_count?: number;
+  suggestion: string;
+  char_id?: number;
+}
+
+export interface LearningAnalyticsData {
+  timeRange: AnalyticsTimeRange;
+  stageId: number | 'all';
+  updated_at: string;
+  kpis: AnalyticsOverviewKPIs;
+  stages: StageProgressionItem[];
+  ebbinghaus: EbbinghausReviewStats;
+  toughChars: ToughCharItem[];
+  habits: LearningHabitStats;
+  alerts: AnalyticsAlertItem[];
+}
+
+

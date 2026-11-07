@@ -1,10 +1,12 @@
 import {
   AdminUser,
+  AnalyticsFilterParams,
   AppConfig,
   CharLibItem,
   FeedbackItem,
   FeedbackStats,
   FeedbackStatus,
+  LearningAnalyticsData,
   MemberDetail,
   MemberFilterParams,
   MemberItem,
@@ -265,5 +267,13 @@ export const api = {
    */
   async seedMockMemberData(): Promise<{ seeded_count: number }> {
     return callAdminApi<{ seeded_count: number }>('seedMockMemberData');
+  },
+
+  // ---------------- 学情大数据看板 API ----------------
+  /**
+   * 获取多维度全量儿童学情数据看板（概览KPI、四大阶段漏斗、艾宾浩斯复习留存、高频错字榜、学习习惯）
+   */
+  async getLearningAnalytics(params: AnalyticsFilterParams = {}): Promise<LearningAnalyticsData> {
+    return callAdminApi<LearningAnalyticsData>('getLearningAnalytics', params);
   }
 };

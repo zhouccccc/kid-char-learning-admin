@@ -30,7 +30,7 @@ const MENU_ITEMS: MenuItem[] = [
     key: 'analytics',
     label: '学情数据看板',
     icon: <BarChart3 className="w-4 h-4" />,
-    badge: '规划中'
+    badge: '实时'
   }
 ];
 
