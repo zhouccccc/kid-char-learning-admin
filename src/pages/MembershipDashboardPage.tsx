@@ -998,6 +998,9 @@ export const MembershipDashboardPage: React.FC = () => {
                           </div>
                           <span className="font-mono text-slate-500">
                             已学 <span className="font-bold text-slate-800">{sm.learned_count}</span> / {sm.total_chars} 字
+                            {typeof sm.mastered_count === 'number' && (
+                              <span className="ml-1 text-emerald-600 font-semibold">({sm.mastered_count} 精通)</span>
+                            )}
                           </span>
                         </div>
                         <div className="mt-2 w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
